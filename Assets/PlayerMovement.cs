@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player1Movement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [Header("References")]
     public Raycaster raycaster;
     public Transform graphicTransform;
+    public GameObject Player;
+    Rigidbody2D rb;
+    bool playerCollistion;
+    MoveDirection reversDir;
     //public Animator graphicAnimator;
 
     [Header("Stats")]
     public float speed;
 
     public float slopeMaxThreshold = 50f;
+
+    public float playerPushBackImpulse =5.0f;
 
     // Natural gravity
     public float gravity;
@@ -29,6 +35,10 @@ public class Player1Movement : MonoBehaviour
     public float wallJumpOpportunityTime;
     bool isStickingToWall;
     float timeSinceBeganWallJump;
+    float time;
+    public float bounceBackDuration= 0.5f;
+    float pCollisionDir;
+
 
     void Start()
     {
@@ -36,22 +46,59 @@ public class Player1Movement : MonoBehaviour
         remainingAllowedJumps = maxAllowedJumps - 1;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        UpdateHorizontalMovement();
-        UpdateVerticalMovement();
         
+        if (playerCollistion)
+        {
+            time = time + Time.fixedDeltaTime;
+            RaycastHit2D hit;
+            int weAreColliding = raycaster.ThrowRays(reversDir, pCollisionDir, out hit);
+            if (weAreColliding == 2)
+            {
+                playerCollistion = false;
+                rb.velocity = Vector2.zero;
+                time = 0;
+            }
+           
+            else if(time > bounceBackDuration)
+            {
+                playerCollistion = false;
+                rb.velocity = Vector2.zero;
+                time = 0;
+            }
+            
+        }
+        else
+        {
+           
+            UpdateHorizontalMovement();
+           
+        }
+
+    }
+    private void Update()
+    {
+        UpdateVerticalMovement();
     }
 
     void UpdateHorizontalMovement()
     {
         float currentMovement = 0f;
-        if (Input.GetKey(KeyCode.LeftArrow)) currentMovement--;
-        if (Input.GetKey(KeyCode.RightArrow)) currentMovement++;
+        if (Player.name == "Player1")
+        {
+            if (Input.GetKey(KeyCode.LeftArrow)) currentMovement--;
+            if (Input.GetKey(KeyCode.RightArrow)) currentMovement++;
+        }else if (Player.name == "Player2")
+        {
+            if (Input.GetKey(KeyCode.A)) currentMovement--;
+            if (Input.GetKey(KeyCode.D)) currentMovement++;
+        }
+        
         
         //graphicAnimator.SetBool("IsWalking", (currentMovement != 0));
 
-        HorizontalMove(speed * currentMovement * Time.deltaTime);
+        HorizontalMove(speed * currentMovement * Time.fixedDeltaTime);
     }
 
     float previousFrameHeight;
@@ -81,10 +128,21 @@ public class Player1Movement : MonoBehaviour
         VerticalMove(currentVerticalMotion);
 
         // process jump
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Player.name == "Player1")
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                JumpStart();
+            }
+        }
+        else if (Player.name == "Player2")
+        {
+             if (Input.GetKeyDown(KeyCode.W))
         {
             JumpStart();
         }
+        }
+        
 
         // Timers related to jump
         JumpUpdate();
@@ -158,17 +216,38 @@ public class Player1Movement : MonoBehaviour
         
         // check for collision, and apply movement if applicable
         RaycastHit2D hit;
-        bool weAreColliding = raycaster.ThrowRays(dir, distance, out hit);
+        int weAreColliding = raycaster.ThrowRays(dir, distance, out hit);
         
         // TODO : wall jump could be processed here
         //if (weAreColliding && isJumping)
         //    timeSinceBeganWallJump = 0;
         
         // Not colliding? It means we can finally apply the movement
-        if (!weAreColliding)
+        if (weAreColliding == 0)
         {
             transform.Translate(Vector3.right * distance);
             return true;
+        }
+        else if (weAreColliding == 1)
+        {
+            rb = GetComponent<Rigidbody2D>();
+
+            playerCollistion = true; 
+            if(dir == MoveDirection.Right)
+            {
+                reversDir = MoveDirection.Left;
+            }
+            else
+            {
+                reversDir = MoveDirection.Right;
+                 
+            }
+            pCollisionDir = distance;
+            rb.velocity = Vector2.left  * distance * playerPushBackImpulse;
+            
+           
+
+            return false;
         }
         
         #region slope handling
@@ -220,10 +299,10 @@ public class Player1Movement : MonoBehaviour
         
         // check for collision, and apply movement if applicable
         RaycastHit2D hit;
-        bool weAreColliding = raycaster.ThrowRays(dir, distance, out hit);
+        int weAreColliding = raycaster.ThrowRays(dir, distance, out hit);
 
         // Not colliding? It means we can finally apply the movement
-        if (!weAreColliding)
+        if (weAreColliding ==0 )
         {
             transform.Translate(Vector3.up * distance);
 

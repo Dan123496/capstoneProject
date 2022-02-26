@@ -157,14 +157,14 @@ public class Player2Movement : MonoBehaviour
 
         // check for collision, and apply movement if applicable
         RaycastHit2D hit;
-        bool weAreColliding = raycaster.ThrowRays(dir, distance, out hit);
+        int weAreColliding = raycaster.ThrowRays(dir, distance, out hit);
 
         // TODO : wall jump could be processed here
         //if (weAreColliding && isJumping)
         //    timeSinceBeganWallJump = 0;
 
         // Not colliding? It means we can finally apply the movement
-        if (!weAreColliding)
+        if (weAreColliding == 0)
         {
             transform.Translate(Vector3.right * distance);
             return true;
@@ -219,10 +219,10 @@ public class Player2Movement : MonoBehaviour
 
         // check for collision, and apply movement if applicable
         RaycastHit2D hit;
-        bool weAreColliding = raycaster.ThrowRays(dir, distance, out hit);
+        int weAreColliding = raycaster.ThrowRays(dir, distance, out hit);
 
         // Not colliding? It means we can finally apply the movement
-        if (!weAreColliding)
+        if (weAreColliding == 0)
         {
             transform.Translate(Vector3.up * distance);
 

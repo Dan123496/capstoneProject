@@ -22,6 +22,8 @@ public class Raycaster : MonoBehaviour
     public float skinWidth = 0.01f;
     [Range(0f, 1f)]
     public float extraDistanceRatioFromCorners = 0.02f;
+    
+
 
     // Just a reference to its component, as usual
     public BoxCollider2D selfBox;
@@ -43,9 +45,10 @@ public class Raycaster : MonoBehaviour
     // Main function to be called by our future movement script.
     // Returns "true" if we're hitting something, "false" otherwise.
     // The "out" keyword allows us to transfer data from the raycast to other scripts.
-    public bool ThrowRays(MoveDirection moveDirection, float rayDistance, out RaycastHit2D hit)
+    
+    public int ThrowRays(MoveDirection moveDirection, float rayDistance, out RaycastHit2D hit)
     {
-        bool result = false;
+        int result = 0;
 
         // Every ray will have the same direction
         Vector2 rayDirection = Vector2.zero;
@@ -70,20 +73,37 @@ public class Raycaster : MonoBehaviour
             // Actual Raycast call, and at the same time we call Debug.DrawRay to see it in the viewport.
             RaycastHit2D rayResult = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance, affectedLayers1);
             Debug.DrawRay(rayOrigin, rayDirection, Color.black, 0.3f);
-            
+
             // If we hit something, we return true.
             if (rayResult.collider != null)
             {
-                Debug.Log(rayResult.collider.name);
-                result = true;
+                if((rayResult.collider.name == "Player1") || (rayResult.collider.name == "Player2"))
+                {
+                    Debug.Log(rayResult.collider.name);
+                    result = 1;
+
+                    // we can also "break;" here because once we hit something, we're no longer interested in processing extra rays
+                    // that's a nice practice if we're being picky about performance, since it avoids useless rays.
+
+                    hit = rayResult;
+
+                    return result;
+                }
+                else 
+                {
+                    result = 2;
+
+                    // we can also "break;" here because once we hit something, we're no longer interested in processing extra rays
+                    // that's a nice practice if we're being picky about performance, since it avoids useless rays.
+
+                    hit = rayResult;
+
+                    return result;
+                }
+           
                 
-                // we can also "break;" here because once we hit something, we're no longer interested in processing extra rays
-                // that's a nice practice if we're being picky about performance, since it avoids useless rays.
-                
-                hit = rayResult;
-                
-                return true;
-            }        
+            }
+            
         }
 
         hit = new RaycastHit2D();
@@ -172,4 +192,6 @@ public class Raycaster : MonoBehaviour
 
         return result;
     }
+
+
 }
