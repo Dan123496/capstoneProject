@@ -19,7 +19,18 @@ public class CountdownTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        textMesh.text = currentTime.ToString();
+        textMesh.text = currentTime.ToString("0");
         currentTime -=1 * Time.deltaTime;
+
+        if(currentTime < 10)
+        textMesh.color = Color.red;
+
+        if(currentTime < 0)
+        Endgame();
+    }
+
+    void Endgame()
+    {
+        Time.timeScale = 0;
     }
 }

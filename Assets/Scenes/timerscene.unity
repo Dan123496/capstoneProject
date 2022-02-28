@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTime: 0
-  startingTime: 120
+  startingTime: 11
 --- !u!114 &134879549
 MonoBehaviour:
   m_ObjectHideFlags: 0
