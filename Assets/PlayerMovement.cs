@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public Raycaster raycaster;
     public Transform graphicTransform;
     public GameObject Player;
+    
     Rigidbody2D rb;
     bool playerCollistion;
     MoveDirection reversDir;
@@ -38,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     float time;
     public float bounceBackDuration= 0.5f;
     float pCollisionDir;
+    float currentTime =300;
 
 
     void Start()
@@ -54,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
             time = time + Time.fixedDeltaTime;
             RaycastHit2D hit;
             int weAreColliding = raycaster.ThrowRays(reversDir, pCollisionDir, out hit);
-            if (weAreColliding == 2)
+            if (weAreColliding == 3)
             {
                 playerCollistion = false;
                 rb.velocity = Vector2.zero;
@@ -73,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
         {
            
             UpdateHorizontalMovement();
+            
            
         }
 
@@ -80,6 +83,10 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         UpdateVerticalMovement();
+        
+        currentTime -= 1 * Time.deltaTime;
+        
+        
     }
 
     void UpdateHorizontalMovement()
@@ -168,6 +175,7 @@ public class PlayerMovement : MonoBehaviour
         timeSinceJumped = 0f;
         previousFrameHeight = 0f;
         remainingAllowedJumps--;
+        
     }
 
     void JumpUpdate()
@@ -228,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
             transform.Translate(Vector3.right * distance);
             return true;
         }
-        else if (weAreColliding == 1)
+        else if (weAreColliding == 1 || weAreColliding ==2)
         {
             rb = GetComponent<Rigidbody2D>();
 

@@ -77,7 +77,7 @@ public class Raycaster : MonoBehaviour
             // If we hit something, we return true.
             if (rayResult.collider != null)
             {
-                if((rayResult.collider.name == "Player1") || (rayResult.collider.name == "Player2"))
+                if(rayResult.collider.name == "Player1")
                 {
                     Debug.Log(rayResult.collider.name);
                     result = 1;
@@ -89,9 +89,21 @@ public class Raycaster : MonoBehaviour
 
                     return result;
                 }
+                if (rayResult.collider.name == "Player2")
+                {
+                    Debug.Log(rayResult.collider.name);
+                    result = 2;
+
+                    // we can also "break;" here because once we hit something, we're no longer interested in processing extra rays
+                    // that's a nice practice if we're being picky about performance, since it avoids useless rays.
+
+                    hit = rayResult;
+
+                    return result;
+                }
                 else 
                 {
-                    result = 2;
+                    result = 3;
 
                     // we can also "break;" here because once we hit something, we're no longer interested in processing extra rays
                     // that's a nice practice if we're being picky about performance, since it avoids useless rays.
@@ -114,7 +126,7 @@ public class Raycaster : MonoBehaviour
     // this function calculates the exact origin of any ray, given its direction and index
     Vector2 CalculateRayOrigin(MoveDirection dir, int rayIndex)
     {
-        Vector2 result = transform.position;
+        Vector2 result = transform.position ;
 
         // step 1 : calculate the two relevant corners
         Vector2 firstCorner = Vector2.zero;
@@ -123,36 +135,36 @@ public class Raycaster : MonoBehaviour
         if (dir == MoveDirection.Down)
         {
             firstCorner = GetSpecificCorner(false, false); // lower left
-            firstCorner.x += 0.5f * selfBox.size.x * transform.localScale.x * extraDistanceRatioFromCorners;
+            firstCorner.x += 0.5f * selfBox.size.x * transform.lossyScale.x * extraDistanceRatioFromCorners;
 
             lastCorner = GetSpecificCorner(false, true); // lower right
-            lastCorner.x -= 0.5f * selfBox.size.x * transform.localScale.x * extraDistanceRatioFromCorners;
+            lastCorner.x -= 0.5f * selfBox.size.x * transform.lossyScale.x * extraDistanceRatioFromCorners;
             
 
         }
         else if (dir == MoveDirection.Up)
         {
             firstCorner = GetSpecificCorner(true, false); // upper left
-            firstCorner.x += 0.5f * selfBox.size.x * transform.localScale.x * extraDistanceRatioFromCorners;
+            firstCorner.x += 0.5f * selfBox.size.x * transform.lossyScale.x * extraDistanceRatioFromCorners;
 
             lastCorner = GetSpecificCorner(true, true); // upper right
-            lastCorner.x -= 0.5f * selfBox.size.x * transform.localScale.x * extraDistanceRatioFromCorners;
+            lastCorner.x -= 0.5f * selfBox.size.x * transform.lossyScale.x * extraDistanceRatioFromCorners;
         }
         else if (dir == MoveDirection.Left)
         {
             firstCorner = GetSpecificCorner(false, false); // lower left
-            firstCorner.y += 0.5f * selfBox.size.y * transform.localScale.y * extraDistanceRatioFromCorners;
+            firstCorner.y += 0.5f * selfBox.size.y * transform.lossyScale.y * extraDistanceRatioFromCorners;
 
             lastCorner = GetSpecificCorner(true, false); // upper left
-            lastCorner.y -= 0.5f * selfBox.size.y * transform.localScale.y * extraDistanceRatioFromCorners;
+            lastCorner.y -= 0.5f * selfBox.size.y * transform.lossyScale.y * extraDistanceRatioFromCorners;
         }
         else if (dir == MoveDirection.Right)
         {
             firstCorner = GetSpecificCorner(true, true); // upper right
-            firstCorner.y -= 0.5f * selfBox.size.y * transform.localScale.y * extraDistanceRatioFromCorners;
+            firstCorner.y -= 0.5f * selfBox.size.y * transform.lossyScale.y * extraDistanceRatioFromCorners;
 
             lastCorner = GetSpecificCorner(false, true); // lower right
-            lastCorner.y += 0.5f * selfBox.size.y * transform.localScale.y * extraDistanceRatioFromCorners;
+            lastCorner.y += 0.5f * selfBox.size.y * transform.lossyScale.y * extraDistanceRatioFromCorners;
         }
 
         // step 2 : find the "position ratio", based on the "i" value
@@ -181,12 +193,10 @@ public class Raycaster : MonoBehaviour
         //result.x += (selfBox.size.x * 0.5f * invertX + selfBox.offset.x) * transform.lossyScale.x;
         
         // Let's break this down into smaller steps:
-        result.x += selfBox.offset.x; // apply offset
-        result.x += selfBox.size.x * 0.5f * invertX; // add or remove half the size
-        result.x *= transform.localScale.x; // apply scale to everything
-
+        
+        result.x += (selfBox.size.x * 0.5f * invertX + selfBox.offset.x) * transform.lossyScale.x;
         // Then we do the same for Y.
-        result.y += (selfBox.size.y * 0.5f * invertY + selfBox.offset.y) * transform.localScale.y;
+        result.y += (selfBox.size.y * 0.5f * invertY + selfBox.offset.y) * transform.lossyScale.y;
 
         // lossyScale refers to "world scale", not just relative to direct parent
 
