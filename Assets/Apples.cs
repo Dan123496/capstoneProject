@@ -61,7 +61,7 @@ public class Apples: MonoBehaviour
             player2Score++;
             Debug.Log("player2 score = " + player2Score);
         }
-        else if (weAreColliding == 3)
+        else if (weAreColliding == 3 || weAreColliding2 == 3 || weAreColliding3 == 3 || weAreColliding4 == 3)
         {
             this.gameObject.SetActive(false);
             if (this.gameObject.activeSelf == false)Debug.Log("Destroyed");

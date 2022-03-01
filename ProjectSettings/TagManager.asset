@@ -14,8 +14,8 @@ TagManager:
   - Player1
   - Player2
   - Roof
-  - 
-  - 
+  - fallingObjects
+  - ground
   - 
   - 
   - 
@@ -52,4 +52,7 @@ TagManager:
     locked: 0
   - name: roof
     uniqueID: 3008147313
+    locked: 0
+  - name: fallingObjects
+    uniqueID: 1328829339
     locked: 0

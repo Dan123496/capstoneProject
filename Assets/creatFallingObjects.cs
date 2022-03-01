@@ -13,6 +13,7 @@ public class creatFallingObjects : MonoBehaviour
     public GameObject apple1;
     public Transform ApplesFolder;
     public int totalApples = 50;
+    GameObject anApple;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,7 @@ public class creatFallingObjects : MonoBehaviour
         theApples = new List<GameObject>();
         apple1.transform.position =roof.transform.position;
         theApples.Add(apple1);
+        
         numberOfApplesCreated = 1;
         spawnWidth = roof.GetComponent<SpriteRenderer>().bounds.size.x;
         InvokeRepeating("SpawnApples", 0.5f, 0.5f);
@@ -42,8 +44,15 @@ public class creatFallingObjects : MonoBehaviour
             {
 
                 rnd = Random.Range(roof.transform.position.x - (0.5f * spawnWidth), roof.transform.position.x);
+                if(numberOfApplesCreated == 1 )
+                {
+                     anApple = GameObject.Instantiate(apple1, new Vector3(rnd, roof.transform.position.y, 0), this.gameObject.transform.rotation);
+
+                }else
+                {
+                    anApple = GameObject.Instantiate(anApple, new Vector3(rnd, roof.transform.position.y, 0), this.gameObject.transform.rotation);
+                }
                 
-                GameObject anApple = GameObject.Instantiate(apple1, new Vector3(rnd, roof.transform.position.y, 0), this.gameObject.transform.rotation);
                 numberOfApplesCreated++;
                 anApple.name = "apple" + numberOfApplesCreated.ToString();
                 theApples.Add(anApple);
@@ -54,7 +63,7 @@ public class creatFallingObjects : MonoBehaviour
             {
                 rnd = Random.Range(roof.transform.position.x, roof.transform.position.x + (0.5f * spawnWidth));
                
-                GameObject anApple = GameObject.Instantiate(apple1, new Vector3(rnd, roof.transform.position.y, 0), this.gameObject.transform.rotation);
+                 anApple = GameObject.Instantiate(anApple, new Vector3(rnd, roof.transform.position.y, 0), this.gameObject.transform.rotation);
                 numberOfApplesCreated++;
                 anApple.name = "apple" + numberOfApplesCreated.ToString();
                 theApples.Add(anApple);
