@@ -48,25 +48,39 @@ public class PlayerMovement : MonoBehaviour
         remainingAllowedJumps = maxAllowedJumps - 1;
     }
 
+    //!!!!!!! added fixedUpdate to make sure movement is not effected by frame rate 
     void FixedUpdate()
     {
-        
+        //code to bounce players back on collision
+        // playerCollision will be true if the ThrowRay() function in horizontal move  
         if (playerCollistion)
         {
+            // sets timer, adds fixedDeltaTime to the timer every update
             time = time + Time.fixedDeltaTime;
+            
+            //throws a ray cast in the oppisit direction as the player collistion
+            // this is to make sure the player will not collide and go though a wall if bounced back  
             RaycastHit2D hit;
             int weAreColliding = raycaster.ThrowRays(reversDir, pCollisionDir, out hit);
+            // if weAreColliding returns a 3, the player has collided with a wall
             if (weAreColliding == 3)
             {
+                //since the player is colliding with a wall, the player should not be pushed back
+                //so playerCollistion is set to false
                 playerCollistion = false;
+                // velocity is set to zero so the player dosent move back
                 rb.velocity = Vector2.zero;
+                //time reset for a new collision 
                 time = 0;
             }
-           
+           //if the time is equal to the lenght of time we want to push the player back for,  the player collision is ended
             else if(time > bounceBackDuration)
             {
+                //so playerCollistion is set to false
                 playerCollistion = false;
+                // velocity is set to zero so the player dosent move back
                 rb.velocity = Vector2.zero;
+                //time reset for a new collision 
                 time = 0;
             }
             
@@ -92,11 +106,14 @@ public class PlayerMovement : MonoBehaviour
     void UpdateHorizontalMovement()
     {
         float currentMovement = 0f;
+        //if the Player is player1, left arrow key sets movment left , right arrow key sets movement right 
         if (Player.name == "Player1")
         {
             if (Input.GetKey(KeyCode.LeftArrow)) currentMovement--;
             if (Input.GetKey(KeyCode.RightArrow)) currentMovement++;
-        }else if (Player.name == "Player2")
+        }
+        //if the Player is player2, A key sets movment left, D key sets movement right
+        else if (Player.name == "Player2")
         {
             if (Input.GetKey(KeyCode.A)) currentMovement--;
             if (Input.GetKey(KeyCode.D)) currentMovement++;
@@ -236,11 +253,16 @@ public class PlayerMovement : MonoBehaviour
             transform.Translate(Vector3.right * distance);
             return true;
         }
+        // if weAreColliding is equal to 1 or 2, the players are colliding 
         else if (weAreColliding == 1 || weAreColliding ==2)
         {
-            rb = GetComponent<Rigidbody2D>();
+            //gets the rigidBody compotant of this player so a force can be applyed to it 
+            rb = GetComponent<Rigidbody2D>(); 
 
+            //since the players are colliding, set the playerCollision veriable to true
             playerCollistion = true; 
+            
+            //gets the revers direction of the direction of the collistion 
             if(dir == MoveDirection.Right)
             {
                 reversDir = MoveDirection.Left;
@@ -250,8 +272,13 @@ public class PlayerMovement : MonoBehaviour
                 reversDir = MoveDirection.Right;
                  
             }
+
+            //sets collistionDir to distance, so the distance can be used in other functions
             pCollisionDir = distance;
-            rb.velocity = Vector2.left  * distance * playerPushBackImpulse;
+
+            // sets a velocity to the player, in the opisit direction the collidion happened in
+            // muiltipled by the pushBackImpules set in the inspector
+            rb.velocity = Vector2.left  * pCollisionDir * playerPushBackImpulse;
             
            
 

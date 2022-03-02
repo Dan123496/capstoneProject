@@ -46,6 +46,8 @@ public class Raycaster : MonoBehaviour
     // Returns "true" if we're hitting something, "false" otherwise.
     // The "out" keyword allows us to transfer data from the raycast to other scripts.
     
+
+    //!!!!!!! changed the type for the ThrowRays function from bool to int, this is so i can output more options than just yes and no  
     public int ThrowRays(MoveDirection moveDirection, float rayDistance, out RaycastHit2D hit)
     {
         int result = 0;
@@ -77,6 +79,7 @@ public class Raycaster : MonoBehaviour
             // If we hit something, we return true.
             if (rayResult.collider != null)
             {
+                //!!!!!!! if the ray collided with player1's box collider, ThrowRays returns 1
                 if(rayResult.collider.name == "Player1")
                 {
                     Debug.Log(rayResult.collider.name);
@@ -89,6 +92,7 @@ public class Raycaster : MonoBehaviour
 
                     return result;
                 }
+                //!!!!!!! if the ray collided with player2's box collider, ThrowRays returns 2
                 if (rayResult.collider.name == "Player2")
                 {
                     Debug.Log(rayResult.collider.name);
@@ -101,7 +105,8 @@ public class Raycaster : MonoBehaviour
 
                     return result;
                 }
-                else 
+                else //!!!!!!! if the ray collided with a box collider that was not a player, ThrowRays returns 3
+                    // this will be a ground or wall collision. 
                 {
                     result = 3;
 
@@ -112,10 +117,11 @@ public class Raycaster : MonoBehaviour
 
                     return result;
                 }
-           
-                
+
+                // !!!!!!!!! this can be used to know if an item hit player1, player2, or the ground
+                // or if player1 and player2 are colliding 
             }
-            
+
         }
 
         hit = new RaycastHit2D();
@@ -192,7 +198,7 @@ public class Raycaster : MonoBehaviour
 
         //result.x += (selfBox.size.x * 0.5f * invertX + selfBox.offset.x) * transform.lossyScale.x;
         
-        // Let's break this down into smaller steps:
+        
         
         result.x += (selfBox.size.x * 0.5f * invertX + selfBox.offset.x) * transform.lossyScale.x;
         // Then we do the same for Y.
