@@ -8,10 +8,12 @@ public class CountdownTimer : MonoBehaviour
     public float currentTime = 0f;
     public float startingTime = 120f;
     private TextMeshProUGUI textMesh;
+    public GameObject SpawnBlocker;
     
     // Start is called before the first frame update
     void Start()
     {
+        SpawnBlocker.SetActive(false);
         textMesh = gameObject.GetComponent<TextMeshProUGUI>();
         currentTime = startingTime;
     }
@@ -31,6 +33,7 @@ public class CountdownTimer : MonoBehaviour
 
     void Endgame()
     {
+        SpawnBlocker.SetActive(true);
         Time.timeScale = 0;
     }
 }
