@@ -1,44 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
+using TMPro;
 
 public class CountdownTimer : MonoBehaviour
 {
-    public GameObject textDisplay;
-    public int secondsLeft = 30;
-    public bool takingAway = false;
-    public Text text;
-
+    public float currentTime = 0f;
+    public float startingTime = 120f;
+    private TextMeshProUGUI textMesh;
+    
     // Start is called before the first frame update
     void Start()
     {
-        textDisplay.GetComponent<Text>().text = "00:" + secondsLeft;
-        text = gameObject.GetComponent<Text> ();
-        text.color = Color.white;
+        textMesh = gameObject.GetComponent<TextMeshProUGUI>();
+        currentTime = startingTime;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (takingAway ==false && secondsLeft > 0)
-        {
-            StartCoroutine(TimerTake());
-        }
+        textMesh.text = currentTime.ToString("0");
+        currentTime -=1 * Time.deltaTime;
 
-        if (takingAway ==false && secondsLeft > 10)
-        {
-            text.color = Color.red;
-        }
+        if(currentTime < 10)
+        textMesh.color = Color.red;
+
+        if(currentTime < 0)
+        Endgame();
     }
 
-    IEnumerator TimerTake()
+    void Endgame()
     {
-        takingAway = true;
-        yield return new WaitForSeconds(1);
-        secondsLeft -=1;
-        textDisplay.GetComponent<Text>().text = "00:" + secondsLeft;
-        takingAway = false;
+        Time.timeScale = 0;
     }
 }
