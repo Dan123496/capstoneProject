@@ -61,17 +61,7 @@ public class creatFallingObjects : MonoBehaviour
         numberOfRocksCreated = 1;
        
 
-        // invokeRepeting is a special function in unity that will call a function repetedly with a set interval in between.
-        // the word in speach marks is the name of the function you want to call (SpawnApples() in this case)
-        // the first float is the time to wait before the function is first called, 0.5f in this case
-        // the second float is the time betwen each new call, 0.5f in this case.
-        // so 0.5 seconds after the start of the game the function for spawning apples will run, and every 0.5 seconds it will run again. 
-        //InvokeRepeating("SpawnApples", 0.5f, 0.5f);
-     
-        // same for the Spawn rocks function here
-        // the inteval between is 1 as their are half as many rocks to drop as apples,
-        //having the inteval at one ensures the rock stop falling at the same time as the apples
-        //InvokeRepeating("SpawnRocks", 1f, 1f);
+       
 
     }
 
