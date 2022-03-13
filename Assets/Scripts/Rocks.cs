@@ -64,11 +64,11 @@ public class Rocks : MonoBehaviour
             // this adds 1 to the player1Score variable in the createFallingObjects script, to increase player 1's score
             // this is a bad way of doing this and i should really give the player1Score variable in the creatFallingObjects script a getter and a setter
             // i will get round to changing this eventerly
-            roof.GetComponent<creatFallingObjects>().player1Score = roof.GetComponent<creatFallingObjects>().player1Score - 1;
+            creatFallingObjects.player1Score = creatFallingObjects.player1Score - 1;
 
             // sets the string scoreText1 to be equal to the player1Score variable in the creatFallingObjects script.
             //again, this should really be done with a getter, and i will get round to changing it
-            scoreText1 = roof.GetComponent<creatFallingObjects>().player1Score.ToString();
+            scoreText1 = creatFallingObjects.player1Score.ToString();
 
             //player1Text is the Text displayed in game. this sets its text to Player 1, and the players score (scoreText1). 
             player1Text.text = "Player 1 /  " + scoreText1;
@@ -80,10 +80,10 @@ public class Rocks : MonoBehaviour
         {
             //this all dose the same as for player1 but for player2 insted, refer to above 
             this.gameObject.SetActive(false);
-            roof.GetComponent<creatFallingObjects>().player2Score = roof.GetComponent<creatFallingObjects>().player2Score - 1; ;
-            scoreText2 = roof.GetComponent<creatFallingObjects>().player2Score.ToString();
+            creatFallingObjects.player2Score = creatFallingObjects.player2Score - 1; ;
+            scoreText2 = creatFallingObjects.player2Score.ToString();
             player2Text.text = "Player 2 /  " + scoreText2;
-            Debug.Log("player2 score = " + roof.GetComponent<creatFallingObjects>().player2Score);
+            Debug.Log("player2 score = " + creatFallingObjects.player2Score);
         }
         // if the apple collides with the ground ThrowRays will return 2
         // so if any of the weAreColliding are equal to 3, this apple has collided with thw ground
