@@ -1625,7 +1625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5d3a6108d3a7a1449e7e36bed474ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 2
+  gravity: 10
   raycaster: {fileID: 1073858957}
   apple1: {fileID: 1073858955}
   roof: {fileID: 2063633219}
@@ -1773,7 +1773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 580524deff7c83f46979f4521c5ec2e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 3
+  gravity: 20
   raycaster: {fileID: 1092608525}
   rock1: {fileID: 1092608523}
   roof: {fileID: 2063633219}
@@ -2116,12 +2116,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343147254}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.02968819, y: -23.530554, z: 0}
-  m_LocalScale: {x: 0.01, y: 1, z: 1}
+  m_LocalPosition: {x: 7.031181, y: -3.5305538, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1092608524}
-  m_Father: {fileID: 2063633221}
-  m_RootOrder: 0
+  m_Father: {fileID: 1722506980}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1583559929
 GameObject:
@@ -2554,6 +2554,7 @@ Transform:
   - {fileID: 619903775}
   - {fileID: 1583797008}
   - {fileID: 1583559930}
+  - {fileID: 1343147255}
   - {fileID: 2063633221}
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -2637,10 +2638,9 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 10, y: 20, z: 0}
   m_LocalScale: {x: 100, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1343147255}
+  m_Children: []
   m_Father: {fileID: 1722506980}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2063633222
 MonoBehaviour:
@@ -2661,6 +2661,11 @@ MonoBehaviour:
   rock1: {fileID: 1092608523}
   RocksFolder: {fileID: 1343147255}
   totalRocks: 450
+  player1Wins: {fileID: 0}
+  player2Wins: {fileID: 0}
+  enviroment: {fileID: 0}
+  player1: {fileID: 0}
+  player2: {fileID: 0}
   levelName: End
 --- !u!1 &2089853421
 GameObject:

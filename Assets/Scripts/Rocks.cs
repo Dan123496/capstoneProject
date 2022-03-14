@@ -32,7 +32,7 @@ public class Rocks : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // moves this insancance of a rock down by the fallDown
         transform.Translate(Vector3.down * fallDown);

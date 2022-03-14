@@ -32,7 +32,7 @@ public class Apples: MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // moves this insancance of an apple down by the fallDown
         transform.Translate(Vector3.down * fallDown);

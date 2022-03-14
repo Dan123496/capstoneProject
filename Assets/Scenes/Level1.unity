@@ -1810,7 +1810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 580524deff7c83f46979f4521c5ec2e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 3
+  gravity: 20
   raycaster: {fileID: 1458512203}
   rock1: {fileID: 1458512201}
   roof: {fileID: 2063633219}
@@ -2336,7 +2336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5d3a6108d3a7a1449e7e36bed474ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 2
+  gravity: 10
   raycaster: {fileID: 1925332349}
   apple1: {fileID: 1925332347}
   roof: {fileID: 2063633219}
