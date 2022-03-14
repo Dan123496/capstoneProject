@@ -86,7 +86,7 @@ public class creatFallingObjects : MonoBehaviour
         }
         for (int i = 0; i < theApples.Length; i++)
         {
-            DontDestroyOnLoad(theApples[i]);
+           
             theApples[i].SetActive(false);
         }
         for (int i = 1; i < theRocks.Length; i++)
