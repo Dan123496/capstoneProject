@@ -24,7 +24,13 @@ public class creatFallingObjects : MonoBehaviour
 
     GameObject newApple;
     GameObject newRock;
-  
+
+    public GameObject player1Wins;
+    public GameObject player2Wins;
+
+    public GameObject enviroment;
+    public GameObject player1;
+    public GameObject player2;
 
 
     public static GameObject[] theApples;
@@ -137,12 +143,29 @@ public class creatFallingObjects : MonoBehaviour
                     break;
                 }
             }
-            if (endLevel)
+            if (endLevel && sceneName == "Level1")
             {
-                SceneManager.LoadScene(levelName);
+                if(player1Score> player2Score)
+                {
+                    player1Wins.SetActive(true);
+                }
+                else
+                {
+                    player2Wins.SetActive(true);
+                }
+
+                enviroment.SetActive(false);
+                player1.SetActive(false);
+                player2.SetActive(false);
+                StartCoroutine(EndGame());
             }
         }
         
+    }
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene(levelName);
     }
     void SpawnApples()
     {
