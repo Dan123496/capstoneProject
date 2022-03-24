@@ -11,6 +11,7 @@ public class CountdownTimer : MonoBehaviour
     private TextMeshProUGUI textMesh;
     public GameObject Player1Wins;
     public GameObject Player2Wins;
+    public GameObject tie;
     public GameObject moveableObjects;
     public GameObject enviroment;
     float timer = 0;
@@ -23,7 +24,8 @@ public class CountdownTimer : MonoBehaviour
     {
         Player1Wins.SetActive(false);
         Player2Wins.SetActive(false);
-        
+        tie.SetActive(false);
+
         textMesh = gameObject.GetComponent<TextMeshProUGUI>();
         currentTime = startingTime;
         timer = 0;
@@ -59,9 +61,13 @@ public class CountdownTimer : MonoBehaviour
             Debug.Log("1 wins");
 
         }
-        else
+        else if (creatFallingObjects.player1Score < creatFallingObjects.player2Score)
         {
             Player2Wins.SetActive(true);
+        }
+        else
+        {
+            tie.SetActive(true);
         }
         enviroment.SetActive(false);
         moveableObjects.SetActive(false);

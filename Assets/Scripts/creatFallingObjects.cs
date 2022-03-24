@@ -27,6 +27,7 @@ public class creatFallingObjects : MonoBehaviour
 
     public GameObject player1Wins;
     public GameObject player2Wins;
+    public GameObject tie;
 
     public GameObject enviroment;
     public GameObject player1;
@@ -149,9 +150,13 @@ public class creatFallingObjects : MonoBehaviour
                 {
                     player1Wins.SetActive(true);
                 }
-                else
+                else if(player1Score < player2Score)
                 {
                     player2Wins.SetActive(true);
+                }
+                else
+                {
+                    tie.SetActive(true);
                 }
 
                 enviroment.SetActive(false);
